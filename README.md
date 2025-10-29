@@ -9,4 +9,5 @@ Displays valid JSON in a Pretty format, or Raw Code
 ## Installation
 ### Quick Deploy (Recommended)
 Click the button below to deploy directly to your Salesforce org:
+
 [<img src="https://raw.githubusercontent.com/afawcett/githubsfdeploy/master/deploy.png" alt="Deploy to Salesforce">](https://githubsfdeploy.herokuapp.com?owner=shadradson&repo=JSON-Fever-Dream-Repo&ref=main)
