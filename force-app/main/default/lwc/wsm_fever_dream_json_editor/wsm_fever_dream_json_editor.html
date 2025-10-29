@@ -1,0 +1,12 @@
+<template>
+    <div class="option-buttons">
+        <lightning-button label="Raw" onclick={handleModeButton} data-mode="raw"></lightning-button>
+        <lightning-button label="Pretty" onclick={handleModeButton} data-mode="pretty"></lightning-button>
+    </div>
+    <div>
+        <pre lwc:if={CurrentMode.raw}>{ParsedJSON}</pre>
+        <div lwc:if={CurrentMode.pretty}>
+            <c-wsm_fever_dream_json_child_nest incsettings={currentSettings} ischildofarray=false inckeystring="" incjsonstring={INCJSON}></c-wsm_fever_dream_json_child_nest>
+        </div>
+    </div>
+</template>

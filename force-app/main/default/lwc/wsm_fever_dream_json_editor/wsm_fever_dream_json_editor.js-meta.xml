@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <masterLabel>WSM JSON Text Parser Tool</masterLabel>
+   <isExposed>true</isExposed>
+   <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets='lightning__FlowScreen'>
+            
+            <property name='INCJSON' type='String' label='Input JSON text' description=''/>
+            <property name='DefaultMode' type='String' label='Default Display Mode' description='Valid Values: raw, pretty'/>
+            
+
+    
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

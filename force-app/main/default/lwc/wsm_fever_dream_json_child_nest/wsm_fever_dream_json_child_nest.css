@@ -1,0 +1,62 @@
+.childobject {
+    padding: 0.5rem;
+    border: 3px solid #00000044;
+    border-radius: 1rem;
+    background-color: #fff;
+    flex-grow: 1;
+    min-width: 60%;;
+}
+
+.topkey {
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0 0 1rem 0;
+    text-transform: capitalize;
+}
+
+/*---------- Key Value Pairs ----------*/
+.kvparent {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.kvpairorobj {
+    flex-grow: 1;
+    flex-basis: 0;
+    background-color: #00000011;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.kvpair {
+    display: flex;
+    flex-direction: column;
+    background-color: #00000011;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    flex-grow: 1;
+    flex-basis: 0;
+    min-width: 40%;
+}
+
+
+span.key {
+    font-weight: 700;
+    margin-right: 0.5rem;
+    text-transform: capitalize;
+}
+
+/*>>>>>>>>>>>>>>>>>>>>>>>>> Percent Values <<<<<<<<<<<<<<<<<<<<<<<<<*/
+.one-column-kvs {
+    min-width: 60%;
+}
+.two-column-kvs {
+    min-width: calc(50% - 2rem);
+}
+.three-column-kvs {
+    min-width: calc(30% - 2rem);
+}
+.four-column-kvs {
+    min-width: calc(25% - 2rem);
+}
