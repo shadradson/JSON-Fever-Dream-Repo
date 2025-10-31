@@ -15,7 +15,6 @@ export default class Wsm_fever_dream_json_child_nest extends LightningElement {
     connectedCallback() {
         this.calculateData();
         this.applySettings();
-
     }
 
     @api getSettingsFromParent(newSettings) {
@@ -24,7 +23,7 @@ export default class Wsm_fever_dream_json_child_nest extends LightningElement {
 
     applySettings() {
         this.appliedSettings = this.incsettings;
-        let allChildLWCs  = this.template.querySelectorAll('c-wsm_fever_dream_json_child_nest');
+        let allChildLWCs = this.template.querySelectorAll('c-wsm_fever_dream_json_child_nest');
         allChildLWCs.forEach(childLWC => {
             childLWC.getSettingsFromParent(this.appliedSettings);
         });
@@ -32,8 +31,25 @@ export default class Wsm_fever_dream_json_child_nest extends LightningElement {
 
     calculateData() {
         //console.log('JSON inc to child: ', this.incjsonstring);
-        if (this.inckeystring === undefined || this.inckeystring === null) { this.inckeystring = '' };
-        this.inckeypretty = this.makeTextPretty(this.inckeystring, /[^a-zA-Z0-9]/g);
+        if (this.inckeystring === undefined || this.inckeystring === null) { this.inckeystring = '' }
+        else {
+            if (this.incsettings.incfieldsettings) {
+                // check the field settings for the current key for overrides.
+                let foundSettingForCurrentKeyTop = this.incsettings.fieldsettings[this.inckeystring];
+                console.log('FOUND TOP KEY SETTING: ', JSON.stringify(foundSettingForCurrentKeyTop));
+                if (foundSettingForCurrentKeyTop !== undefined) {
+                    //found settings.
+
+                    this.inckeypretty = foundSettingForCurrentKeyTop['label-override'];
+                }
+                else {
+                    this.inckeypretty = this.makeTextPretty(this.inckeystring, /[^a-zA-Z0-9]/g);
+                }
+            }
+            else {
+                this.inckeypretty = this.makeTextPretty(this.inckeystring, /[^a-zA-Z0-9]/g);
+            }
+        }
 
         try {
             let parsedJSON = JSON.parse(this.incjsonstring);
@@ -45,24 +61,47 @@ export default class Wsm_fever_dream_json_child_nest extends LightningElement {
             } else {
                 for (const [key, value] of Object.entries(parsedJSON)) {
                     console.log(`${key} ${value}`); // "a 5", "b 7", "c 9"
-                    let obj = {};
+                    let obj = { 'type': 'object', 'isstring': false, 'isobject': false, 'isnumber': false, 'isbool': false, 'key': key, 'value': value };
                     if (typeof value === 'object' && value != null) {
-                        obj.type = 'object';
-                        obj.isstring = false;
-                        obj.isobject = true;
+                        ;
+                        obj.isobject = true; // the rest of the values are default in the definition above.
                     }
-                    else {
-                        obj.type = 'string';
-                        obj.isstring = true;
-                        obj.isobject = false;
+                    else if (typeof value === 'number') {
+                        obj.type = 'number'
+                        obj.isnumber = true;
+                        obj.valuepretty = value.toString();
                     }
-                    obj.key = key;
-                    obj.keypretty = this.makeTextPretty(key, /[^a-zA-Z0-9]/g);
-                    obj.value = value;
-                    obj.stringifiedvalue = JSON.stringify(value);
+                    else if (typeof value === 'boolean') {
+                        obj.type = 'boolean'
+                        obj.isbool = true;
+                    }
                     if (typeof value === 'string') {
                         obj.valuepretty = this.makeTextPretty(value, /(^\"|\"$)/g);
+                        obj.type = 'string';
+                        obj.isstring = true;
                     }
+                    obj.keypretty = this.makeTextPretty(key, /[^a-zA-Z0-9]/g);
+                    // check to see if field settings JSON was provided.
+                    if (this.incsettings.incfieldsettings) {
+                        // check the field settings for the current key for overrides.
+                        let foundSettingForCurrentKey = this.incsettings.fieldsettings[key];
+                        if (foundSettingForCurrentKey !== undefined) {
+                            //found settings.
+                            obj.keypretty = foundSettingForCurrentKey['label-override'];
+                            if (foundSettingForCurrentKey['type'] == 'forced-string') {
+                                if (obj.isobject) {
+                                    obj.valuepretty = JSON.stringify(value);
+                                }
+                                obj.type = 'string';
+                                obj.isstring = true;
+                                obj.isobject = false;
+                                obj.isnumber = false;
+                                obj.isbool = false;
+                            }
+                        }
+                    }
+
+                    obj.stringifiedvalue = JSON.stringify(value);
                     this.keyValues.push(obj);
                 }
             }
@@ -77,17 +116,17 @@ export default class Wsm_fever_dream_json_child_nest extends LightningElement {
             arrayRow.stringifiedvalue = JSON.stringify(element);
             arrayRow.key = index;
             this.keyValues.push(arrayRow);
-            console.log('Pushing this data for array to children: ',JSON.stringify(arrayRow));
+            console.log('Pushing this data for array to children: ', JSON.stringify(arrayRow));
         });
     }
 
     makeTextPretty(incText, regexString) {
-        console.log('make text pretty start: ', incText);
-        if (incText === undefined || incText === null) { return ''} ; // fix nulls and undefined
+        //console.log('make text pretty start: ', incText);
+        if (incText === undefined || incText === null) { return '' }; // fix nulls and undefined
         if (typeof incText !== 'string') { incText = JSON.stringify(incText); } // fix other possible strange problems with JSON
-        console.log('make text pretty start: ', incText);
+        //console.log('make text pretty start: ', incText);
         let newtxt = incText.replace(regexString, ' ');
-        console.log('make text pretty start: ', newtxt);
+        //console.log('make text pretty start: ', newtxt);
         return newtxt;
     }
 
