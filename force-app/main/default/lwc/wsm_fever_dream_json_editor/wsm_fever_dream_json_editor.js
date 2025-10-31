@@ -4,6 +4,7 @@ export default class Wsm_fever_dream_json_editor extends LightningElement {
     @api INCJSON;
     @api DefaultMode;
     @api INCFieldSettingsJSON;
+    @api AllowUserChangeView;
     @track CurrentMode = { 'raw': true, 'pretty': false, 'chaos': false };
     @track currentSettings = { 'keyoriginalvaluehelp': false, 'valueoriginalvaluehelp': false, 'columns': 1, 'incfieldsettings': false };
     ParsedJSON;
@@ -17,6 +18,8 @@ export default class Wsm_fever_dream_json_editor extends LightningElement {
     initCalculations() {
         //console.log(typeof this.INCJSON);
         //console.log(this.INCJSON);
+        
+        console.log('Allow user to change view?: ', this.AllowUserChangeView);
         try {
             if (this.INCFieldSettingsJSON !== undefined) {
                 this.currentSettings.fieldsettings = JSON.parse(this.INCFieldSettingsJSON);
@@ -24,8 +27,7 @@ export default class Wsm_fever_dream_json_editor extends LightningElement {
             }
         }
         catch (error) {
-            console.groupCollapsed("Error in ", this.template.host.localName);
-            console.trace();
+            console.warning("Error in Init Calculations > Parsing Field Settings JSON\nThis is likely due to a malformed JSON string.\nPlease check your JSON and try again.");
             console.error(error.message);
         };
 
@@ -42,8 +44,7 @@ export default class Wsm_fever_dream_json_editor extends LightningElement {
             //console.log('Sending this to child parser: ', this.INCJSON);
         }
         catch (error) {
-            console.groupCollapsed("Error in ", this.template.host.localName);
-            console.trace();
+            console.warning("Error in Init Calculations > Parsing JSON Body\nThis is likely due to a malformed JSON string.\nPlease check your JSON and try again.");
             console.error(error.message);
         };
 

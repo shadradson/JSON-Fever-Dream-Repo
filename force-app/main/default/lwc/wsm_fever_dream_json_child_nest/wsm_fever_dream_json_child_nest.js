@@ -35,8 +35,9 @@ export default class Wsm_fever_dream_json_child_nest extends LightningElement {
         else {
             if (this.incsettings.incfieldsettings) {
                 // check the field settings for the current key for overrides.
+                console.log('Searching in Key Settings for: ',this.inckeystring);
                 let foundSettingForCurrentKeyTop = this.incsettings.fieldsettings[this.inckeystring];
-                console.log('FOUND TOP KEY SETTING: ', JSON.stringify(foundSettingForCurrentKeyTop));
+                //console.log('FOUND TOP KEY SETTING: ', JSON.stringify(foundSettingForCurrentKeyTop));
                 if (foundSettingForCurrentKeyTop !== undefined) {
                     //found settings.
 
@@ -60,24 +61,29 @@ export default class Wsm_fever_dream_json_child_nest extends LightningElement {
                 this.iterateArray(parsedJSON);
             } else {
                 for (const [key, value] of Object.entries(parsedJSON)) {
-                    console.log(`${key} ${value}`); // "a 5", "b 7", "c 9"
+                    console.log(`Processing: ${key} with the value of ${value}. Type = ${typeof value}`); // "a 5", "b 7", "c 9"
                     let obj = { 'type': 'object', 'isstring': false, 'isobject': false, 'isnumber': false, 'isbool': false, 'key': key, 'value': value };
                     if (typeof value === 'object' && value != null) {
-                        ;
                         obj.isobject = true; // the rest of the values are default in the definition above.
                     }
                     else if (typeof value === 'number') {
                         obj.type = 'number'
                         obj.isnumber = true;
                         obj.valuepretty = value.toString();
+                        console.log('Number changed to displayable string: ', obj.valuepretty);
                     }
                     else if (typeof value === 'boolean') {
                         obj.type = 'boolean'
                         obj.isbool = true;
                     }
-                    if (typeof value === 'string') {
+                    else if (typeof value === 'string') {
                         obj.valuepretty = this.makeTextPretty(value, /(^\"|\"$)/g);
                         obj.type = 'string';
+                        obj.isstring = true;
+                    }
+                    else {
+                        obj.type = 'string';
+                        obj.valuepretty = value.toString();
                         obj.isstring = true;
                     }
                     obj.keypretty = this.makeTextPretty(key, /[^a-zA-Z0-9]/g);

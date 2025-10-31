@@ -17,6 +17,12 @@
                         </div>
                         <span class="value">{kv.valuepretty}</span><lightning-helptext content={kv.key} lwc:if={incsettings.valueoriginalvaluehelp} class="help"></lightning-helptext>
                 </div>
+                <div key={kv.key} class="kvpair" lwc:if={kv.isnumber}>
+                        <div>
+                            <span class="key">{kv.keypretty}</span><lightning-helptext content={kv.key} lwc:if={incsettings.keyoriginalvaluehelp} class="help"></lightning-helptext>
+                        </div>
+                        <span class="value">{kv.valuepretty}</span><lightning-helptext content={kv.key} lwc:if={incsettings.valueoriginalvaluehelp} class="help"></lightning-helptext>
+                </div>
                 <div key={kv.key} class="childobject" lwc:if={kv.isobject}>
                         <c-wsm_fever_dream_json_child_nest incsettings={incsettings} ischildofarray=false inckeystring={kv.key} incjsonstring={kv.stringifiedvalue}></c-wsm_fever_dream_json_child_nest>
                 </div>

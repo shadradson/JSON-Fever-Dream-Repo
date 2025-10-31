@@ -10,7 +10,8 @@
         <targetConfig targets='lightning__FlowScreen'>
             <property name='INCJSON' type='String' label='Input JSON text' description=''/>
             <property name='INCFieldSettingsJSON' type='String' label='Input field settiings JSON text' description='[{"keyid":"clientHisName","type":"auto","label-override":"Client 1 Name"}]'/>
-            <property name='DefaultMode' type='String' label='Default Display Mode' description='Valid Values: raw, pretty'/>
+            <property name='DefaultMode' type='String' label='Default Display Mode' description='Valid Values: raw, pretty' default="pretty"/>
+            <property name='AllowUserChangeView' type='Boolean' label='Allow User to Change View Mode' description='This takes in true or false.' default="true"/>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

@@ -1,5 +1,5 @@
 <template>
-    <div class="option-buttons">
+    <div class="option-buttons" lwc:if={AllowUserChangeView}>
         <lightning-button label="Raw" onclick={handleModeButton} data-mode="raw"></lightning-button>
         <lightning-button label="Pretty" onclick={handleModeButton} data-mode="pretty"></lightning-button>
     </div>
